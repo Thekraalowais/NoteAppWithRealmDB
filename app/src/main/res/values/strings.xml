@@ -1,6 +1,9 @@
 <resources>
-    <string name="app_name">Notebook</string>
+    <string name="app_name">تدوين</string>
     <string name="add_note">Add Note</string>
     <string name="edit_note">Edit Note</string>
-<string name="save">Save</string>
+    <string name="save">Save</string>
+    <string name="empty">Add Note :)</string>
+    <string name="delete">Delete</string>
+    <string name="note">Note</string>
 </resources>

@@ -4,12 +4,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:background="@color/item"
     tools:context="com.example.thekra.notebook.EditActivity">
 
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="TITLE"
+        android:hint="Title"
         android:id="@+id/title"/>
 
     <EditText

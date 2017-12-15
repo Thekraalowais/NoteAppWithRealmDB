@@ -3,21 +3,21 @@ package com.example.thekra.notebook;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-
 import java.util.List;
 
 
-public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.ViewHolder>
-{
+public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.ViewHolder> {
     private Context context;
     private List<Model> note;
 
 
-    public NoteAdapter(List<Model> note,Context context) {
+    public NoteAdapter(List<Model> note, Context context) {
         this.context = context;
         this.note = note;
     }
@@ -35,7 +35,7 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.ViewHolder>
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(context, EditActivity.class);
-                intent.putExtra("id",currentItem.getId());
+                intent.putExtra("id", currentItem.getId());
                 context.startActivity(intent);
             }
         });
@@ -44,7 +44,9 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.ViewHolder>
 
     @Override
     public int getItemCount() {
+        Log.i("SIZE" + note.size(),"SSSS");
         return note.size();
+
     }
 
 
@@ -55,9 +57,10 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.ViewHolder>
         public ViewHolder(View view) {
             super(view);
             click = view;
-            title =  view.findViewById(R.id.title);
+            title = view.findViewById(R.id.title);
+
         }
 
-}
+    }
 
 }

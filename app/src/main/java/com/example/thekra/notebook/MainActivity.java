@@ -9,8 +9,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
+import android.util.Log;
 import android.view.View;
+import android.widget.TextView;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -35,12 +38,15 @@ public class MainActivity extends AppCompatActivity {
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(simpleCallbackItemTouchHelper);
 
         result = myRealm.where(Model.class).findAllAsync();
+        Log.i("RESULT" + result, "LLL");
+
         recyclerView = findViewById(R.id.recycleView);
+
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         adapter = new NoteAdapter(result, this);
         recyclerView.setAdapter(adapter);
+        Log.i("ADAPTERSIZE"+adapter,"AAAA");
         itemTouchHelper.attachToRecyclerView(recyclerView);
-
         floatingActionButton = findViewById(R.id.fab);
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -105,7 +111,7 @@ public class MainActivity extends AppCompatActivity {
                             adapter.notifyItemRemoved(position);
                         }
                     })
-                    .setNegativeButton("Cancle", new DialogInterface.OnClickListener() {
+                    .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int id) {
                             // User cancelled the dialog
                             clearView(recyclerView, viewHolder);

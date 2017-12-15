@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -47,20 +48,14 @@ public class EditActivity extends AppCompatActivity {
         myRealm = Realm.getInstance(EditActivity.this);
         title = findViewById(R.id.title);
         desc = findViewById(R.id.desc);
+
         Intent intent = getIntent();
 
         if (intent.hasExtra("id")) {
+            idValue = true;
             setTitle(getString(R.string.edit_note));
             Log.i("OLD NOTE" + intent, "SSSSSSSSs");
 
-        } else {
-            setTitle(getString(R.string.add_note));
-            Log.i("NEW NOTE" + intent, "SSSSSSSSs");
-
-        }
-
-        if (intent.hasExtra("id")) {
-            idValue = true;
             id = intent.getIntExtra("id", 0);
             Log.v("ID", "SSSSSSSSSS" + id);
 
@@ -72,6 +67,10 @@ public class EditActivity extends AppCompatActivity {
                 Log.v("TITLE", "SSSSSSSSSS" + model.getTitle());
                 desc.setText(model.getDes());
             }
+        } else {
+            setTitle(getString(R.string.add_note));
+            Log.i("NEW NOTE" + intent, "SSSSSSSSs");
+
         }
         title.setOnTouchListener(Touch);
         desc.setOnTouchListener(Touch);
@@ -97,11 +96,13 @@ public class EditActivity extends AppCompatActivity {
             model.setId(getNextKey());
             model.setTitle(title.getText().toString());
             model.setDes(desc.getText().toString());
+            Log.i("NULL" + title.getText().toString(), "NNNNN");
 
-            myRealm.beginTransaction();
-            myRealm.copyToRealmOrUpdate(model);
-            myRealm.commitTransaction();
-            Toast.makeText(this, "Note added", Toast.LENGTH_SHORT).show();
+                myRealm.beginTransaction();
+                myRealm.copyToRealmOrUpdate(model);
+                myRealm.commitTransaction();
+                Toast.makeText(this, "Note added", Toast.LENGTH_SHORT).show();
+
         }
     }
 
@@ -123,7 +124,12 @@ public class EditActivity extends AppCompatActivity {
 
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
-        return super.onPrepareOptionsMenu(menu);
+        super.onPrepareOptionsMenu(menu);
+        if (!idValue) {
+            MenuItem menuItem = menu.findItem(R.id.delete);
+            menuItem.setVisible(false);
+        }
+        return true;
     }
 
 
@@ -133,6 +139,10 @@ public class EditActivity extends AppCompatActivity {
             case R.id.save:
                 addOrUpdate();
                 finish();
+                break;
+            case R.id.delete:
+                DeleteNote();
+                break;
         }
         return super.onOptionsItemSelected(item);
 
@@ -140,7 +150,7 @@ public class EditActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        //
+        //not true the statement will execute
         if (!NoteChange) {
             super.onBackPressed();
             return;
@@ -164,6 +174,25 @@ public class EditActivity extends AppCompatActivity {
 
     }
 
+    public void DeleteNote() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(EditActivity.this);
+        builder.setMessage("Delete Note?").setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                myRealm.beginTransaction();
+                result.clear();
+                myRealm.commitTransaction();
+                finish();
 
+            }
+        }).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                dialogInterface.cancel();
+            }
+        });
+        AlertDialog alertDialog = builder.create();
+        alertDialog.show();
+    }
 }
 

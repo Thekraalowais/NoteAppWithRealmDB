@@ -1,8 +1,12 @@
 package com.example.thekra.notebook;
 
+import android.support.annotation.NonNull;
+import android.text.TextUtils;
+
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
 import io.realm.annotations.RealmClass;
+import io.realm.annotations.Required;
 
 @RealmClass
 public class Model extends RealmObject {
